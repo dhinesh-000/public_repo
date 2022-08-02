@@ -1,9 +1,11 @@
 using DG.Tweening;
 using UnityEngine;
 
+
 public class linearmove : MonoBehaviour
 {
     public bool shouldmove;
+    public bool shoudloop;
 
     public float howmuchtomoveX;
     public float howmuchtomoveY;
@@ -11,7 +13,6 @@ public class linearmove : MonoBehaviour
     public float timetocompleteY;
 
     public Ease ease;
-    public bool shoudloop;
     public LoopType loopType;
 
     void Start()

@@ -22,13 +22,17 @@ public class nextlvltrigger : MonoBehaviour
         SceneManagerscript.instance.lvlcompletepanel.SetActive(false);
         // this.GetComponent<AnchorGameObject>().enabled=false;
     }
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other)
+    {
         if(other.transform.CompareTag("Player"))
         {
             Debug.Log( "level complete");
             //lvlcompletepanel.SetActive(true);
             SceneManagerscript.instance.lvlcompletepanel.SetActive(true); 
             playermovementscript.instance.rb.velocity=new Vector3(0,0,0);
+            gamemanager.instance.currentstate=gamemanager.gamestate.winscreen;
+            SceneManagerscript.instance.losescreentxt.SetActive(false);
+            SceneManagerscript.instance.winscreentxt.SetActive(true);
             // lvlcomplete=true;
 
         }

@@ -11,16 +11,19 @@ public class SceneManagerscript : MonoBehaviour
 {
     public static SceneManagerscript instance;
     public GameObject lvlcompletepanel;
+    public GameObject winscreentxt;
+    public GameObject losescreentxt;
 
     public CanvasGroup fillimage;
     public float SCENEtransitiontime;
-    public Text loadingtext;
+    // public Text loadingtext;
     public Slider vel_indicator;
     public GameObject mainmenu;
-    public GameObject player;
+    // public GameObject player;
     public GameObject ui;
+    public GameObject lumentxt;
 
-    public GameObject lvl;
+     public GameObject veltext;
    
      void Awake() 
     {
@@ -40,6 +43,7 @@ public class SceneManagerscript : MonoBehaviour
     void Update() 
     {
         vel_indicator.value=playermovementscript.instance.rb.velocity.x;
+        veltext.GetComponent<Text>().text=playermovementscript.instance.rb.velocity.x.ToString("f1");
         if(lvlcompletepanel.activeInHierarchy)
         {
             Time.timeScale=0;
@@ -58,10 +62,12 @@ public class SceneManagerscript : MonoBehaviour
 
                    
     }
+    ///...btn
     public void retrylevelfunction()
     {
+        ///... use this clear line to remove dotween target missing/field errors
+        DOTween.Clear(true);
 
-        
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         playermovementscript.instance.transform.position=playermovementscript.instance.startpos_initsetting;
         playermovementscript.instance.rb.velocity=new Vector3(0,0,0);
@@ -71,11 +77,14 @@ public class SceneManagerscript : MonoBehaviour
         ///...since the  variables is marked as dontdestroyonload this value has to be harcoded to what we need 
         gamemanager.instance.total=0;
         gamemanager.instance.k=gamemanager.instance.k_initval;
+        gamemanager.instance.i=gamemanager.instance.i_initial;
         ///...since the  variables is marked as dontdestroyonload this value has to be harcoded to what we need
         
         objpool.instance.reset();
     }
+    ///...btn
 
+    ///...btn
     public void loadnextlevelfunction()
     {
 
@@ -99,7 +108,10 @@ public class SceneManagerscript : MonoBehaviour
         objpool.instance.reset();
         
     }
+    ///...btn
 
+
+    ///...btn
     public void homebuttonfunction()
     {
         DOVirtual.Float(0,1,SCENEtransitiontime,v=>fillimage.alpha=v).SetEase(Ease.InCubic);
@@ -109,6 +121,7 @@ public class SceneManagerscript : MonoBehaviour
         StartCoroutine(call());
 
     }
+    ///...btn
     IEnumerator call()
     {
         yield return new WaitForSeconds(1f);

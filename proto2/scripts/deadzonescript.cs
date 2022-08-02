@@ -14,6 +14,7 @@ public class deadzonescript : MonoBehaviour
             Debug.Log("dead");
 
             StartCoroutine(startfunction());
+            gamemanager.instance.currentstate=gamemanager.gamestate.losescreen;
         }
     }
     private void OnTriggerExit(Collider other) 
@@ -29,6 +30,8 @@ public class deadzonescript : MonoBehaviour
         yield return new WaitForSeconds(1f);
         // SceneManagerscript.instance.retrylevelfunction();
         lvlcompletepanel.SetActive(true);
+        SceneManagerscript.instance.losescreentxt.SetActive(true);
+        SceneManagerscript.instance.winscreentxt.SetActive(false);
         
     }
 }
