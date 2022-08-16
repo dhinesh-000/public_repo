@@ -14,17 +14,25 @@ public class VCamHandler : MonoBehaviour
     public float shaketime,shaketime1;
     void Awake() 
     {
-      if(instance==null)
-        {instance=this;
-        DontDestroyOnLoad(gameObject);}
-      else 
-        Destroy(gameObject);
+      // if(instance==null)
+      //   {instance=this;
+      //   DontDestroyOnLoad(gameObject);
+      //   }
+      // else 
+      //   Destroy(gameObject);
+      instance=this;
+    }
+    void OnEnable() 
+    {
+        cinemachineVirtualCamera.Follow=playermovementscript.instance.gameObject.transform;
+        cinemachineVirtualCamera.LookAt=playermovementscript.instance.gameObject.transform;  
     }
     void Start() 
     {
       cinemachineVirtualCamera=GetComponent<CinemachineVirtualCamera>();
       cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain=0f;
     }
+  
   public void shakecam()
   {
     ///...camera shake
@@ -38,7 +46,7 @@ public class VCamHandler : MonoBehaviour
   public void shakecamforboost()
   {
     ///...camera shake
-      Debug.Log("shaking");
+      // Debug.Log("shaking");
       CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin=cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
       DOVirtual.Float(intensity1,0,shaketime1, v =>cinemachineBasicMultiChannelPerlin.m_AmplitudeGain=v);        

@@ -1,32 +1,35 @@
-
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+
 ///...proto2...///
 ///singleton
-
+///...REFACTORED
 public class SceneManagerscript : MonoBehaviour
 {
     public static SceneManagerscript instance;
     public GameObject lvlcompletepanel;
-    public GameObject winscreentxt;
-    public GameObject losescreentxt;
-
-    public CanvasGroup fillimage;
-    public float SCENEtransitiontime;
-    // public Text loadingtext;
-    public Slider vel_indicator;
-    public GameObject mainmenu;
-    // public GameObject player;
-    public GameObject ui;
-    public GameObject lumentxt;
-
-     public GameObject veltext;
-   
-     void Awake() 
+    public Text winscreentxt;
+    public Text losescreentxt;
+    // public Slider vel_indicator;
+    public Text lumentxt;
+    public Toggle timetoggle;
+    public Text lvl_indicator_text;
+    public Slider Player_exp_slider;
+    // public Text dist_Travelledtext;
+    // public Slider slider_time;
+    public Button magnetradiusBTN;
+    public Text albumname_text;
+    public RectTransform panel;
+    
+    public Vector2 y1,y2;
+    [HideInInspector]
+    public bool a=false,b=false;
+    void Awake() 
     {
+        ///...google review handler
         ///...put the bundle identifier after '=' section 
         // Application.OpenURL ("market://details?id=");
 
@@ -38,95 +41,84 @@ public class SceneManagerscript : MonoBehaviour
         else    
             Destroy(gameObject);
 
-        fillimage.alpha=0;
     }
-    void Update() 
+   public void pause()
     {
-        vel_indicator.value=playermovementscript.instance.rb.velocity.x;
-        veltext.GetComponent<Text>().text=playermovementscript.instance.rb.velocity.x.ToString("f1");
-        if(lvlcompletepanel.activeInHierarchy)
-        {
-            Time.timeScale=0;
-            // AudioListener.pause = true;
-        }   
-        else
-        {
-            // AudioListener.pause=false; 
-        }
-
-        if(lvlcompletepanel.activeInHierarchy)
-        {
-            PlayerPrefs.SetFloat("PLAYER_EXP",gamemanager.instance.k);
-            // Debug.Log(PlayerPrefs.GetFloat("PLAYER_EXP"));
-        }
-
-                   
+        panel.DOAnchorPos(y1,2).SetUpdate(true);
+        a=true;
+    }
+    public void close()
+    {
+        panel.DOAnchorPos(y2,2f).SetUpdate(true);
+        b=true;
     }
     ///...btn
     public void retrylevelfunction()
     {
-        ///... use this clear line to remove dotween target missing/field errors
-        DOTween.Clear(true);
+        
+        DOTween.PauseAll();
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        playermovementscript.instance.transform.position=playermovementscript.instance.startpos_initsetting;
-        playermovementscript.instance.rb.velocity=new Vector3(0,0,0);
-        playermovementscript.instance.GetComponent<TrailRenderer>().time=300;
+        
+        
         lvlcompletepanel.SetActive(false);
 
-        ///...since the  variables is marked as dontdestroyonload this value has to be harcoded to what we need 
-        gamemanager.instance.total=0;
+        playermovementscript.instance.transform.position=playermovementscript.instance.startpos_initsetting;///...setting the player back to its initial position at the start of the level
+        playermovementscript.instance.rb.velocity=new Vector3(0,0,0); ///...setting the player velocity to zero
         gamemanager.instance.k=gamemanager.instance.k_initval;
         gamemanager.instance.i=gamemanager.instance.i_initial;
-        ///...since the  variables is marked as dontdestroyonload this value has to be harcoded to what we need
-        
-        objpool.instance.reset();
+        gamemanager.instance.lumen=gamemanager.instance.lumen_initial;
+
+
+        GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.ingame;
+
+        StartCoroutine(LOADINGSCREENscript.instance.loadscene(SceneManager.GetActiveScene().buildIndex));
+        StartCoroutine(trailfunc());
     }
+
     ///...btn
 
     ///...btn
     public void loadnextlevelfunction()
     {
+        DOTween.PauseAll();
 
-        DOVirtual.Float(0,1,SCENEtransitiontime,v=>fillimage.alpha=v).SetEase(Ease.InCubic);
-        
-        AsyncOperation operation= SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex+1);
-        
-        // yield return new WaitForSeconds(operation.progress);
-        DOVirtual.Float(1,0,SCENEtransitiontime,v=>fillimage.alpha=v).SetEase(Ease.InCubic);
+        StartCoroutine(LOADINGSCREENscript.instance.loadscene(SceneManager.GetActiveScene().buildIndex+1));       
+
+        lvlcompletepanel.SetActive(false);
 
         playermovementscript.instance.transform.position=playermovementscript.instance.startpos_initsetting;
         playermovementscript.instance.rb.velocity=new Vector3(0,0,0);
-        lvlcompletepanel.SetActive(false);
-
-        ///...since the variables is marked as dontdestroyonload this value has to be harcoded to what we need
-        gamemanager.instance.total=0;
         gamemanager.instance.k_initval=gamemanager.instance.k;
         gamemanager.instance.k=PlayerPrefs.GetFloat("PLAYER_EXP");
-        ///...since the  variables is marked as dontdestroyonload this value has to be harcoded to what we need
 
-        objpool.instance.reset();
+
+        GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.ingame;
+
+        SAVESYSTEMscript.instance.saveGameData();
         
+        StartCoroutine(trailfunc());
+       
     }
     ///...btn
-
-
+    IEnumerator  trailfunc()
+    {       
+        yield return new WaitForSeconds(3f);
+        playermovementscript.instance.trailRenderer.time=10;
+    }
+    
     ///...btn
     public void homebuttonfunction()
     {
-        DOVirtual.Float(0,1,SCENEtransitiontime,v=>fillimage.alpha=v).SetEase(Ease.InCubic);
-        lvlcompletepanel.SetActive(false);
-        ui.SetActive(false);      
-        DOVirtual.Float(1,0,SCENEtransitiontime,v=>fillimage.alpha=v).SetEase(Ease.InCubic);
-        StartCoroutine(call());
+        StartCoroutine(LOADINGSCREENscript.instance.loadscene(0));
+        GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.mainmenu;
 
+        ///...true value set in mainmenuscript
+        playermovementscript.instance.gameObject.SetActive(false);
+        audiomanager.instance.volume.enabled=false;
+        PShandler.instance.rain_ps.SetActive(false);
+        // audiomanager.instance.gameObject.SetActive(false);
     }
     ///...btn
-    IEnumerator call()
-    {
-        yield return new WaitForSeconds(1f);
-        mainmenu.SetActive(true);
-    }
 
     
    

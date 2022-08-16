@@ -1,37 +1,40 @@
-using System.Collections;
 using UnityEngine;
+
+///...proto2...///
+///...REFACTORED
 
 public class deadzonescript : MonoBehaviour
 {
-    public GameObject lvlcompletepanel;
-    private void Start() {
-        lvlcompletepanel.SetActive(false);
-        this.GetComponent<AnchorGameObject>().enabled=false;
+    void Start() 
+    {
+        if(SceneManagerscript.instance!=null)
+            SceneManagerscript.instance.lvlcompletepanel.SetActive(false);
+        // this.GetComponent<AnchorGameObject>().enabled=false;
     }
-    private void OnTriggerEnter(Collider other) {
-        if(other.transform.CompareTag("Player"))
+    void OnTriggerEnter(Collider i) 
+    {
+        if(i.transform.CompareTag("Player"))
         {
-            Debug.Log("dead");
+            ///...PLAYER HAS LOST THE LEVEL
 
-            StartCoroutine(startfunction());
-            gamemanager.instance.currentstate=gamemanager.gamestate.losescreen;
+            
+            playermovementscript.instance.trailRenderer.time=0;
+
+            GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.losescreen;
         }
     }
-    private void OnTriggerExit(Collider other) 
+    void OnTriggerExit(Collider i) 
     {
-        if(other.transform.CompareTag("Player"))
+        if(i.transform.CompareTag("Player"))
         {
-            playermovementscript.instance.GetComponent<TrailRenderer>().time=0f;
-            playermovementscript.instance.GetComponent<Rigidbody>().velocity=new Vector3(0,0,0);
+            if(SceneManagerscript.instance!=null)
+            {
+                SceneManagerscript.instance.lvlcompletepanel.SetActive(true);
+                SceneManagerscript.instance.losescreentxt.gameObject.SetActive(true);
+                SceneManagerscript.instance.winscreentxt.gameObject.SetActive(false);
+            }
+            
+            playermovementscript.instance.rb.velocity=new Vector3(0,0,0);
         }    
-    }
-    IEnumerator startfunction()
-    {
-        yield return new WaitForSeconds(1f);
-        // SceneManagerscript.instance.retrylevelfunction();
-        lvlcompletepanel.SetActive(true);
-        SceneManagerscript.instance.losescreentxt.SetActive(true);
-        SceneManagerscript.instance.winscreentxt.SetActive(false);
-        
     }
 }

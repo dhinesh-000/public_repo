@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class triggerzonePrefabVariant01 : MonoBehaviour
 {
-    public GameObject quadrings;    
+    // public GameObject quadrings; 
+    public Renderer Renderer;  
     float f;
     [ColorUsage(true,true)]
     public Color outerringchangedcolor;
@@ -18,19 +19,33 @@ public class triggerzonePrefabVariant01 : MonoBehaviour
 
     triggerzone triggerzonescript;
 
+    int ID_alphathreshold;
+    int ID_thickness;
+    int ID_outerringcolor;
+    int ID_expansion;
+
     void OnEnable() 
     {
         initialsetting();
     }
     public void initialsetting()
     {
-        quadrings.GetComponent<Renderer>().material.SetFloat("_alphathreshold",0);
-        quadrings.GetComponent<Renderer>().material.SetFloat("_thickness",0.3f);
-        quadrings.GetComponent<Renderer>().material.SetColor("_outerringcolor",outerringinitcolor);
-    }
-    void Start() 
-    {
+        Renderer.material.SetFloat(ID_alphathreshold,0);
+        Renderer.material.SetFloat(ID_thickness,0.3f);
+        Renderer.material.SetColor(ID_outerringcolor,outerringinitcolor);
         triggerzonescript=this.GetComponent<triggerzone>();
+        alpha=false;
+        alpha1=false;
+    }
+    void Awake() 
+    {
+        ///...caching shader id
+        ID_alphathreshold=Shader.PropertyToID("_alphathreshold");    
+        ID_thickness=Shader.PropertyToID("_thickness");
+        ID_outerringcolor=Shader.PropertyToID("_outerringcolor");
+        ID_expansion=Shader.PropertyToID("_expansion");
+        ///...caching shader id
+
     }
     
     void Update()
@@ -40,34 +55,31 @@ public class triggerzonePrefabVariant01 : MonoBehaviour
         {
             f=29;
             f+=Time.time;
-            quadrings.GetComponent<Renderer>().material.SetFloat("_expansion",f);
+            Renderer.material.SetFloat(ID_expansion,f);
         }
         else if(triggerzonescript.inside==true) 
         {
-            quadrings.GetComponent<Renderer>().material.SetFloat("_expansion",triggerzonescript. harvestamount);                    
+            Renderer.material.SetFloat(ID_expansion,triggerzonescript. harvestamount);                    
         }    
         if((triggerzonescript.spheremesh.transform.localScale.x<=0 )) 
         {
-            if(triggerzonescript.exit==true && triggerzonescript.inside==false)
+            if(!alpha1 && triggerzonescript.exit==false)  
+            {
+                ///...prompting the player that triggerzoneGO star is dead by changing the color of the outerring 
+                DOVirtual.Color(Renderer.material.GetColor(ID_outerringcolor),outerringchangedcolor,outerringradCOLORfadetime,v => Renderer.material.SetColor(ID_outerringcolor,v));
+
+                alpha1=true;
+            }
+            if(triggerzonescript.exit==true )
             {
                 
-                // quadrings.GetComponent<Renderer>().material.SetFloat("_expansion",0);
+                // Renderer.material.SetFloat("_expansion",0);
                 if(!alpha)
                 {
-                    DOVirtual.Float(0,2,alphathresholdfadetime,v => quadrings.GetComponent<Renderer>().material.SetFloat("_alphathreshold",v));
+                    DOVirtual.Float(0,2,alphathresholdfadetime,v => Renderer.material.SetFloat(ID_alphathreshold,v));
                     
                     alpha=true; 
                 }
-            }
-            if(!alpha1)
-            {
-                // DOVirtual.Float(1,0,OTRfadetime,v =>quadrings.GetComponent<Renderer>().material.SetFloat("_thickness",v));
-
-                ///...prompting the player that triggerzoneGO star is dead by changing the color of the outerring 
-                DOVirtual.Float(1,0,OTRfadetime,v =>quadrings.GetComponent<Renderer>().material.SetFloat("_thickness",v));
-                DOVirtual.Color(quadrings.GetComponent<Renderer>().material.GetColor("_outerringcolor"),outerringchangedcolor,outerringradCOLORfadetime,v => quadrings.GetComponent<Renderer>().material.SetColor("_outerringcolor",v));
-
-                alpha1=true;
             }
                 
         } 

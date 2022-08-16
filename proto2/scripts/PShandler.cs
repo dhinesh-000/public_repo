@@ -23,6 +23,7 @@ public class PShandler : MonoBehaviour
             Destroy(gameObject);
         }
         ps=rain_ps.GetComponent<ParticleSystem>();
+        rain_ps.SetActive(false);
         main=ps.main;
         // vel=ps.velocityOverLifetime;
     }

@@ -1,28 +1,19 @@
-using System.Collections;
-using UnityEngine;  
-using UnityEngine.UI;
-using DG.Tweening;
+using UnityEngine; 
+using UnityEngine.UI; 
 
 ///...proto2
 ///...singleton
 ///...dontdestroyonload
 public class gamemanager : MonoBehaviour
 {
-    public enum gamestate
-    {
-        mainmenu,
-        ingame,
-        winscreen,
-        losescreen
-    }
-    ///...setting mainmenu as the default gamestate
-    public gamestate currentstate=gamestate.mainmenu;
+
     public static gamemanager instance;
     // public Slider lvl_completion_slider;
     public int numberOfSpawnpoint;
     float f1=10;
     
-    public float total;
+    // public float total; ///... find the purpose of this variable
+    
     // [HideInInspector]
     // public float t1,t2,t3;
     [HideInInspector]
@@ -32,11 +23,12 @@ public class gamemanager : MonoBehaviour
     // public float combomultiplier;
     // public GameObject combotext;
     public AnimationCurve GAME_EXP_AC;
-    public GameObject lvl_indicator_text;
 
-    // float h;
-    public Slider Player_exp_slider;
+    [Space]
+    [Header("TO BE SAVED")]
+
     public  float k;
+
     [HideInInspector]
     public  float k_initval;
     [HideInInspector]
@@ -44,14 +36,16 @@ public class gamemanager : MonoBehaviour
     [HideInInspector]
     public float i_initial;
     Keyframe lastkeytime;
+
+
     public int lumen;
-    public Toggle settingicon;
-    // public Toggle crediticon;
-    public GameObject settingpanel;
-    public GameObject creditpanel;
-    public float transitiontime;
-    public Ease ease;
-    public GameObject coinholder;
+    [HideInInspector]
+    public int lumen_initial;
+
+    // int m=0;
+    public int TARGETFPS;
+    public Text fps;
+    public Text hz;
     
     void Awake() 
     {
@@ -65,14 +59,16 @@ public class gamemanager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    IEnumerator Start() 
+    void Start() 
     {
-        yield return new WaitForSeconds(2f);
+        Application.targetFrameRate=60;
+        // yield return new WaitForSeconds(2f);
         eachPercentage=f1/numberOfSpawnpoint;
         eachPercentage_init=eachPercentage;
         Debug.Log(eachPercentage+"%");
         k_initval=k;
         i_initial=i;
+        lumen_initial=lumen;
 
         lastkeytime=GAME_EXP_AC[GAME_EXP_AC.length-1]; ///...last key frame of the GAME_EXP_AC animation curve;
         // Debug.Log(lastkeytime.time);///...gives the time value of the last keyframe;
@@ -86,93 +82,57 @@ public class gamemanager : MonoBehaviour
         // }
        
     }
+    // void FixedUpdate() 
+    // {
+    //     if(TARGETFPS!=Application.targetFrameRate)
+    //     {
+    //     Application.targetFrameRate=TARGETFPS;
+    //     }   
+    // }
     void Update() 
     {
-        if(SceneManagerscript.instance.mainmenu.activeInHierarchy)
+        if(TARGETFPS!=Application.targetFrameRate)
         {
-            currentstate=gamestate.mainmenu;
-        }
-        else if(!SceneManagerscript.instance.mainmenu.activeInHierarchy )
-        {
-            currentstate=gamestate.ingame;
-        }
-        if(SceneManagerscript.instance.winscreentxt.activeInHierarchy)
-        {
-            currentstate=gamestate.winscreen;
-        }
-        else if(SceneManagerscript.instance.losescreentxt.activeInHierarchy)
-        {
-            currentstate=gamestate.losescreen;
-        }       
+           Application.targetFrameRate=TARGETFPS;
+        }   
+
+        fps.text=Application.targetFrameRate.ToString("f3");
+        hz.text=Screen.currentResolution.refreshRate.ToString();
         // if(combomultiplier>=1)
         // {    
         //     combotext.GetComponent<Text>().text=combomultiplier.ToString("f0");    
         // }
-        
+        // if(GAMESTATES_MANAGER.instance.currentstate==GAMESTATES_MANAGER.gamestate.mainmenu)
+        // {
+        //     Destroy(gameObject);
+        // }
         ///...player xp
-        Player_exp_slider.minValue=GAME_EXP_AC.Evaluate(i);  ///...zeroth value;
-        Player_exp_slider.maxValue=GAME_EXP_AC.Evaluate(i+1);   ////...zero + 1th value;
-        if(k>=Player_exp_slider.maxValue)
+        if(SceneManagerscript.instance!=null)
         {
-            i++;
-            // Debug.Log("working");
-        }
-        if(k>=GAME_EXP_AC.Evaluate(lastkeytime.time))
-        {
-            i=lastkeytime.time;
-        }
-
-        Player_exp_slider.value=k;
-        lvl_indicator_text.GetComponent<Text>().text=i.ToString("f0");
-        ///...player xp
-
-
-        ///...player is in mainmenu screen
-        if(currentstate==gamestate.mainmenu)
-        {
-            if(settingicon.isOn==true)
+            SceneManagerscript.instance. Player_exp_slider.minValue=GAME_EXP_AC.Evaluate(i);  ///...zeroth value;
+            SceneManagerscript.instance.Player_exp_slider.maxValue=GAME_EXP_AC.Evaluate(i+1);   ////...zero + 1th value;
+            if(k>=SceneManagerscript.instance.Player_exp_slider.maxValue)
             {
-                settingpanel.SetActive(true);
+                i++;
+                // Debug.Log("working");
             }
-            else if(settingicon.isOn==false)
+            if(k>=GAME_EXP_AC.Evaluate(lastkeytime.time))
             {
-                settingpanel.SetActive(false);
-                creditpanel.SetActive(false);
-            } 
-            SceneManagerscript.instance.ui.SetActive(false);
-            playermovementscript.instance.gameObject.SetActive(false);
-            PShandler.instance.gameObject.SetActive(false);
-            // coinholder.SetActive(false);
+                i=lastkeytime.time;
+            }
 
-            
+            SceneManagerscript.instance.Player_exp_slider.value=k;
+            SceneManagerscript.instance.lvl_indicator_text.text=i.ToString();
+            ///...player xp
         }
-        ///...player is in mainmenu screen
-
-        ///...player is in gamemode
-        else if(currentstate==gamestate.ingame)
-        {
-            SceneManagerscript.instance.ui.SetActive(true);
-            playermovementscript.instance.gameObject.SetActive(true);
-            SceneManagerscript.instance.mainmenu.SetActive(false);
-            PShandler.instance.gameObject.SetActive(true);
-            // coinholder.SetActive(true);s
-        }
-        ///...player is in gamemode
        
-    }
-    public void pointerdownfunc()
-    {
-        creditpanel.SetActive(true);
-    }
-    public void pointerupfunc()
-    {
-        creditpanel.SetActive(false);
     }
     public void playbuttonfunction()
     {
-        SceneManagerscript.instance.fillimage.alpha=1;
-        SceneManagerscript.instance.mainmenu.SetActive(false);
-        DOVirtual.Float(1,0,transitiontime,v=>SceneManagerscript.instance.fillimage.alpha=v).SetEase(ease);
-    }     
+        ///... TO BE FILLED
+    } 
+
+
+      
 
 }

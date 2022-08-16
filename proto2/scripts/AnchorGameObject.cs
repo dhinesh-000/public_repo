@@ -47,8 +47,8 @@ public class AnchorGameObject : MonoBehaviour
 
         if (cameraWaitCycles > 0)
         {
-            print(string.Format("CameraAnchor found CameraFit instance after waiting {0} frame(s). " +
-                "You might want to check that CameraFit has an earlie execution order.", cameraWaitCycles));
+            // print(string.Format("CameraAnchor found CameraFit instance after waiting {0} frame(s). " +
+            //     "You might want to check that CameraFit has an earlie execution order.", cameraWaitCycles));
         }
 
         UpdateAnchor();
@@ -101,13 +101,13 @@ public class AnchorGameObject : MonoBehaviour
 
 #if UNITY_EDITOR
     // Update is called once per frame
-    void Update()
-    {
-        if (updateAnchorRoutine == null && executeInUpdate)
-        {
-            updateAnchorRoutine = UpdateAnchorAsync();
-            StartCoroutine(updateAnchorRoutine);
-        }
-    }
+    // void Update()
+    // {
+    //     if (updateAnchorRoutine == null && executeInUpdate)
+    //     {
+    //         updateAnchorRoutine = UpdateAnchorAsync();
+    //         StartCoroutine(updateAnchorRoutine);
+    //     }
+    // }
 #endif
 }

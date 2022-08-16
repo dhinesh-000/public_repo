@@ -194,6 +194,7 @@ MonoBehaviour:
   OTRfadetime: 5
   alphathresholdfadetime: 2
   outerringradCOLORfadetime: 5
+  spheremesh: {fileID: 7191238605725007669}
 --- !u!1 &7191238605699877357
 GameObject:
   m_ObjectHideFlags: 0

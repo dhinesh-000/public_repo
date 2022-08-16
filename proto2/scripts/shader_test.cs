@@ -1,38 +1,15 @@
-using DG.Tweening;
 using UnityEngine;
+using DG.Tweening;
 
 public class shader_test : MonoBehaviour
 {
-    float k=2;
-    float l=-4.14f;
-    public GameObject[] variant01;
-    public GameObject[] variant02;
-    void Update()
+    // public bool mybool;
+    public LoopType loopType;
+    public Ease ease;
+    public float timetocomplete;
+
+    void Start() 
     {
-        ///..design variant 01
-        if(Input.GetKey(KeyCode.L))
-        {
-            if(k<=5)
-                k+=Time.deltaTime;
-            for(int i=0;i<variant01.Length;i++)
-            {
-                variant01[i].GetComponent<Renderer>().material.SetFloat("_control2",k);
-            }
-        }
-        ///..design variant 01
-
-        ///..design variant 02
-        if(Input.GetKey(KeyCode.Q))
-        {
-            if(l<=-1.50f)
-                l+=Time.deltaTime;  
-            variant02[0].GetComponent<Renderer>().material.SetVector("_control2",new Vector3(l,-1.35f,0));
-
-            if(k<=5)
-                k+=Time.deltaTime;
-            variant02[1].GetComponent<Renderer>().material.SetFloat("_control2",k);
-        }
-        ///..design variant 02
-
-    }
+        DOVirtual.Float(0,1.39f,timetocomplete,v => this.GetComponent<Renderer>().material.SetFloat("_Float",v)).SetEase(ease).SetLoops(-1,loopType);
+    }  
 }

@@ -12,7 +12,7 @@ public class rotationalmove : MonoBehaviour
     {
         if(shouldrotate==true)
         {
-            this.transform.DOLocalRotate(new Vector3(0, 0, howmuchtorotate), timetorotate, RotateMode.FastBeyond360).SetRelative(true).SetEase(ease).SetLoops(-1,loopType);
+            this.transform.DOLocalRotate(new Vector3(0,  howmuchtorotate,0), timetorotate, RotateMode.FastBeyond360).SetRelative(true).SetEase(ease).SetLoops(-1,loopType);
         }
     }
 
