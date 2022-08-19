@@ -56,9 +56,14 @@ public class mainmenuscript : MonoBehaviour
     {
         GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.ingame;
         ///...false value set in scenemanagerscript
-        playermovementscript.instance.gameObject.SetActive(true);
+        playermovementscript.instance.transform.GetChild(0).gameObject.SetActive(true);
+        // playermovementscript.instance.transform.GetChild(1).gameObject.SetActive(true);
         audiomanager.instance.volume.enabled=true;
         PShandler.instance.rain_ps.SetActive(true);
+
+        SceneManagerscript.instance.transform.GetChild(0).gameObject.SetActive(true);
+        SceneManagerscript.instance.transform.GetChild(1).gameObject.SetActive(true);
+        SceneManagerscript.instance.transform.GetChild(2).gameObject.SetActive(true);
 
         
         StartCoroutine(LOADINGSCREENscript.instance.loadscene(i));

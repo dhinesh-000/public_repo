@@ -27,6 +27,7 @@ public class SceneManagerscript : MonoBehaviour
     public Vector2 y1,y2;
     [HideInInspector]
     public bool a=false,b=false;
+    public Toggle pausetoggle;
     void Awake() 
     {
         ///...google review handler
@@ -40,17 +41,28 @@ public class SceneManagerscript : MonoBehaviour
         }   
         else    
             Destroy(gameObject);
-
+    }
+    void Start() 
+    {
+        setChildGOtoFalse();
+    }
+    void setChildGOtoFalse()
+    {
+        this.transform.GetChild(0).gameObject.SetActive(false);
+        this.transform.GetChild(1).gameObject.SetActive(false);
+        this.transform.GetChild(2).gameObject.SetActive(false);
     }
    public void pause()
     {
-        panel.DOAnchorPos(y1,2).SetUpdate(true);
+        GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.pausemenu;
+        panel.DOAnchorPos(y1,1).SetUpdate(true);
         a=true;
     }
     public void close()
     {
-        panel.DOAnchorPos(y2,2f).SetUpdate(true);
-        b=true;
+        GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.ingame;
+        panel.DOAnchorPos(y2,1f).SetUpdate(true);
+        a=false; 
     }
     ///...btn
     public void retrylevelfunction()
@@ -109,13 +121,21 @@ public class SceneManagerscript : MonoBehaviour
     ///...btn
     public void homebuttonfunction()
     {
+        DOTween.PauseAll();
         StartCoroutine(LOADINGSCREENscript.instance.loadscene(0));
         GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.mainmenu;
 
         ///...true value set in mainmenuscript
-        playermovementscript.instance.gameObject.SetActive(false);
+        playermovementscript.instance.transform.GetChild(0).gameObject.SetActive(false);
+        playermovementscript.instance.transform.GetChild(1).gameObject.SetActive(false);
         audiomanager.instance.volume.enabled=false;
         PShandler.instance.rain_ps.SetActive(false);
+        panel.DOAnchorPos(y2,1f).SetUpdate(true);
+        a=false;
+
+        playermovementscript.instance.rb.velocity=new Vector3(0,0,0);
+        playermovementscript.instance.transform.position=playermovementscript.instance.startpos_initsetting;
+        setChildGOtoFalse();
         // audiomanager.instance.gameObject.SetActive(false);
     }
     ///...btn

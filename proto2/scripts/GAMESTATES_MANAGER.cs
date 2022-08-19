@@ -8,8 +8,9 @@ public class GAMESTATES_MANAGER : MonoBehaviour
     {
         mainmenu,
         ingame,
-        winscreen,
-        losescreen,
+        pausemenu,
+        progressmenu,
+        lose
         
     }
     ///...setting mainmenu as the default gamestate

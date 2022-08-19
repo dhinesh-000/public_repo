@@ -57,12 +57,12 @@ public class playermovementscript : MonoBehaviour
         else    
             Destroy(gameObject);
             
-        magnetGO.SetActive(false);
         // this.gameObject.SetActive(false);
     }
      
     void Start()
     {
+        magnetGO.SetActive(false);
         rb=GetComponent<Rigidbody>(); 
         trailRenderer=GetComponent<TrailRenderer>();
         audioSource=GetComponent<AudioSource>();
@@ -87,11 +87,11 @@ public class playermovementscript : MonoBehaviour
                 ///...mobile controls
                 if(Input.touchCount>0)
                 {
-                    if(Input.GetTouch(0).position.x > Screen.width/2)
+                    if(Input.GetTouch(0).position.x > Screen.width/2 && Input.GetTouch(0).phase == TouchPhase.Stationary)
                     {   
                         rb.AddForce(transform.right*forceintensity);
                     }  
-                    if(Input.GetTouch(0).position.x < Screen.width/2)
+                    if(Input.GetTouch(0).position.x < Screen.width/2 && Input.GetTouch(0).phase == TouchPhase.Stationary)
                     {
                         rb.AddForce(-transform.right*forceintensity);
                     }    
@@ -121,14 +121,12 @@ public class playermovementscript : MonoBehaviour
                 forceintensity=80;
             }
 
-            if(SceneManagerscript.instance. a==true)
+            if(SceneManagerscript.instance.a==true)
             {
-            
-                Time.timeScale=0;
+                Time.timeScale=0;   
             }
-            if(SceneManagerscript.instance.b==true)
+            if(SceneManagerscript.instance.a==false)
             {
-            
                 Time.timeScale=1.7f;
             }
         }

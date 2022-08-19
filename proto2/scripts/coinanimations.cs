@@ -18,9 +18,9 @@ public class coinanimations : MonoBehaviour
  
     void Start()
     {
-            this.transform.DOLocalRotate(new Vector3(0, 0, 360), 5f, RotateMode.FastBeyond360).SetRelative(true).SetEase(ease).SetLoops(-1,loopType);
+        this.transform.DOLocalRotate(new Vector3(0, 0, 360), 5f, RotateMode.FastBeyond360).SetRelative(true).SetEase(ease).SetLoops(-1,loopType);
 
-            this.transform.DOScale(new Vector3(scaleEndValue,scaleEndValue,scaleEndValue),timetocomplete).SetEase(ease).SetLoops(-1,LoopType.Yoyo);
+        this.transform.DOScale(new Vector3(scaleEndValue,scaleEndValue,scaleEndValue),timetocomplete).SetEase(ease).SetLoops(-1,LoopType.Yoyo);
          
     }
     void Update() 
@@ -36,6 +36,7 @@ public class coinanimations : MonoBehaviour
             coincollect?.Invoke();
             a=true;
         }   
+        
     }
 
     

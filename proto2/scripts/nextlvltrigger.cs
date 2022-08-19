@@ -24,12 +24,8 @@ public class nextlvltrigger : MonoBehaviour
         if(i.transform.CompareTag("Player"))
         {
             ///...PLAYER HAS WON THE LEVEL
-
-
+            GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.progressmenu;
             playermovementscript.instance.trailRenderer.time=0;
-            
-            GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.winscreen;
-
         }
     }
     void OnTriggerExit(Collider i) 

@@ -16,11 +16,8 @@ public class deadzonescript : MonoBehaviour
         if(i.transform.CompareTag("Player"))
         {
             ///...PLAYER HAS LOST THE LEVEL
-
-            
             playermovementscript.instance.trailRenderer.time=0;
-
-            GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.losescreen;
+            GAMESTATES_MANAGER.instance.currentstate=GAMESTATES_MANAGER.gamestate.lose;
         }
     }
     void OnTriggerExit(Collider i) 

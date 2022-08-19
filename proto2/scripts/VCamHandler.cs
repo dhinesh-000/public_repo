@@ -29,7 +29,6 @@ public class VCamHandler : MonoBehaviour
     }
     void Start() 
     {
-      cinemachineVirtualCamera=GetComponent<CinemachineVirtualCamera>();
       cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain=0f;
     }
   

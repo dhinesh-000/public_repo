@@ -96,8 +96,13 @@ public class gamemanager : MonoBehaviour
            Application.targetFrameRate=TARGETFPS;
         }   
 
-        fps.text=Application.targetFrameRate.ToString("f3");
-        hz.text=Screen.currentResolution.refreshRate.ToString();
+
+        ///...gc allocating 
+            // fps.text=Application.targetFrameRate.ToString("f3");
+            // hz.text=Screen.currentResolution.refreshRate.ToString();
+        ///...gc allocating 
+
+
         // if(combomultiplier>=1)
         // {    
         //     combotext.GetComponent<Text>().text=combomultiplier.ToString("f0");    
