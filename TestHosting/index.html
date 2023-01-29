@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB_DEV_Test</title>
+</head>
+<style>
+    table,th,td
+    {
+        border: 1px solid black;
+    }
+    .class1
+    {
+        font-weight: bolder ;
+        color:crimson;
+    }
+    #a:hover
+    {
+        background-color: blue;
+        font-weight: bolder;
+        color: white;
+    }
+    #b
+    {
+        width:100px;
+        height:100px;
+        background-color: red;
+        transition: width 1s , background-color 2s ,transform 2s;
+    }
+    #b:hover
+    {
+        background-color: blue;
+        transform: rotate(180deg) scale(0.75);
+
+    }
+    #c
+    {
+        width:100px;
+        height: 100px;
+        background-color: blue;
+        animation-name:anim;
+        animation-duration: 2s;
+        animation-iteration-count:infinite;
+    }
+    @keyframes anim 
+    {
+        from{width:100px;}
+        to{width:200px;}
+    }
+    .d
+    {
+        width: 50px;
+        height:50px;
+        background-color: green;
+        border-radius: 100px;
+        box-shadow: 0px 0px 10px 10px blue;
+        animation-name: mailkeyframe;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+    }
+    .e
+    {
+        width: 300px;
+        height: 300px;
+        border-radius:0px;
+        box-shadow:
+            inset 0 0 50px #fff,      /* inner white */
+            inset 20px 0 80px #f0f,   /* inner left magenta short */
+            inset -20px 0 80px #0ff,  /* inner right cyan short */
+            inset 20px 0 300px #f0f,  /* inner left magenta broad */
+            inset -20px 0 300px #0ff, /* inner right cyan broad */
+            0 0 50px #fff,            /* outer white */
+            -10px 0 80px #f0f,        /* outer left magenta */
+            10px 0 80px #0ff;         /* outer right cyan */
+    }
+    .mail
+    {
+        border:1px solid black;
+        box-shadow:0px 0px 10px 1px green;
+        animation-name: mailkeyframe;
+        animation-duration:2s;
+        animation-iteration-count: infinite;
+    }
+    @keyframes mailkeyframe 
+    {
+        from{box-shadow:0px 0px 10px 1px green;}    
+        to{box-shadow:0px 0px 10px 5px green;}
+    }
+    .test
+    {
+        box-shadow:0px 0px 10px 1px green;
+    }
+</style>
+<body style="background-color: powderblue;">
+    <p class="test" > test</p>
+    <p class="d" ></p>
+    <a class="mail" href="mailto:dhinesh14301@gmail.com">dhinesh14301@gmail.com</a><br>
+    <a href="iframetest.html" target="_parent" > open this link</a>
+    <p id="c" ></p>
+    <p id="b" ></p>
+    <p id="a" >color change</p>
+    <p id="greetings" >greetings</p>
+    <p id="getday">  get day</p>
+    <p id="getnumber" ></p>
+    <p class="class1" > hello</p>
+    <p id="randnumber" ></p>
+    <div>
+        hello<span style="background-color:brown ; border: 10px dashed black;" >world</span>!!!
+    </div>
+    <div>
+        <h1 style="color: red; background-color: green;">hi people</h1>
+    </div>
+    <div>
+        <a href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Findia&psig=AOvVaw3geA9R-6O-wMI6eGeonnco&ust=1666884145123000&source=images&cd=vfe&ved=0CAoQjRxqFwoTCPjSt8OZ_voCFQAAAAAdAAAAABAD" target="_blank">
+            go here to view a image in a new tab</a>
+    </div>
+    <div>
+        <p>
+            <pre style="background-color: red;">
+hi this will be a pre - 
+processed format using the pre tags
+also known as 
+                p
+                    o
+                        e   
+                            m 
+                                format
+            </pre>
+        </p>
+
+    </div>
+    <div>
+        <img src="C:\Users\dnesh\OneDrive\Desktop\OPTOMETRY.jpeg" alt="no image displayed" width=" 100" height=" 100" >
+    </div>
+    
+    <div>
+        <button type="button" onclick="document.getElementById('demo').innerHTML=Date()"> click to view current date time</button>
+    </div>
+    <div>
+        <p id="demo" style="color: green; font-size: larger ; font-weight: bold; display:block ; " ></p>
+    </div>
+    <div>
+        <p id="k">test text </p>
+    </div>
+    <div>
+        <button type="button" onclick="myfunction()"> click to change the text</button>
+    </div>
+
+    <button type="button" onclick="secfunction()" > click me to show window alert </button>   
+    
+    <p id = "edge" onmouseenter="thirdfunction()" style="background-color: yellow;">hover over me to show the result of adding 5 and 6</p>
+    <p id="edge" onmouseleave ="forthfunction()" > </p>
+
+    <div>
+        <p id="mult" style="background-color:red;"></p>
+    </div>
+    <table style="width: 50%; background-color: red; color: white;border-collapse:collapse; border-spacing: 40px;"  >
+        <caption style="color: black;" >my first table</caption>
+        <tr>
+            <th>a</th>
+            <th>b</th>
+            <th>c</th>
+        </tr>
+        <tr style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+            <td style="text-align:center;" >jjjjjkkkkkllllliiiiiooooooppppasdasWEB
+            </td>
+            <td style="padding:50px ;" >k</td>
+            <td>l</td>
+        </tr>
+    </table>
+    <p id="details"></p>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <ol style="background-color:red ; font-weight: 900;">
+        <li style="padding-left:10px; ">1</li>
+        <li>2</li>
+        <li>3</li>
+    </ol>
+    <div>
+        <iframe src="iframetest.html" width="700px;height=100px"></iframe>
+    </div>
+    
+    <script>
+        
+        function myfunction()
+        {
+            document.getElementById("k").innerHTML = "text has been changed";
+        }
+        function secfunction()
+        {
+            window.alert("Greetings from the developer");
+        }
+        function thirdfunction()
+        {
+            let a,b,c;
+            a=5;
+            b=6;
+            c=a+b;
+            document.getElementById("edge").innerHTML = a+b;
+        }
+        function forthfunction()
+        {
+            document.getElementById("edge").innerText="hover over me to show the result of adding 5 and 6";
+        }
+        function fifthfunction()
+        {
+            document.getElementById("onmouse").innerHTML = z+=1;
+        }
+        function sixthfunction(p1,p2)
+        {
+            return p1*p2;
+        }
+        document.getElementById("mult").innerHTML = sixthfunction(5,6);
+        const details = ["volvo","supra","mclaren"];
+        details.push("mercedes","ford");
+        document.getElementById("details").innerHTML=details.join("///");
+        
+        </script>
+    <script>
+        if(new Date().getHours()>8)
+        {
+            document.getElementById("greetings").innerHTML="good day brother!";
+        }
+    </script>
+    <script>
+        let day;
+        switch(new Date().getDay())
+        {
+            case 0:day="sunday";break;
+            case 1:day="monday";break;
+            case 2:day="tuesday";break;
+            case 3:day="wednesday";break;
+            case 4:day="thursday";break;
+            case 5:day="friday";break;
+            case 6:day="satday";break;
+        }
+        
+        document.getElementById("getday").innerHTML = "today is "+ day;
+    </script>
+    <script>
+        let text="";
+        const number = 10;
+        for(let i = 0 ; i < number ; i++)
+        {
+            text += i + "<br>";
+        }
+        document.getElementById("getnumber").innerHTML = text; 
+
+        document.getElementById("randnumber").innerHTML= Math.floor( Math.random(0,1) *10);
+
+        function getlocation()
+        {
+            document.getElementById("loc").innerHTML = navigator.geolocation.getCurrentPosition();
+        }
+    </script>
+</body>
+</html>
